@@ -141,7 +141,8 @@ sudo systemctl restart dnsmasq
 ##############################
 CONSUL_VERSION="${consul_version}"
 CONSUL_ZIP="consul_$${CONSUL_VERSION}_linux_amd64.zip"
-CONSUL_URL="https://releases.hashicorp.com/consul/$${CONSUL_VERSION}/$${CONSUL_ZIP}"
+#CONSUL_URL="https://releases.hashicorp.com/consul/$${CONSUL_VERSION}/$${CONSUL_ZIP}"
+CONSUL_URL="https://github.com/xukai286/consul/archive/${CONSUL_VERSION}.zip
 
 echo "Downloading consul $${CONSUL_VERSION}"
 curl --silent --output /tmp/$${CONSUL_ZIP} $${CONSUL_URL}
