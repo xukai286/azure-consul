@@ -142,10 +142,11 @@ sudo systemctl restart dnsmasq
 CONSUL_VERSION="${consul_version}"
 CONSUL_ZIP="consul_$${CONSUL_VERSION}_linux_amd64.zip"
 #CONSUL_URL="https://releases.hashicorp.com/consul/$${CONSUL_VERSION}/$${CONSUL_ZIP}"
-CONSUL_URL="https://github.com/xukai286/consul/archive/${CONSUL_VERSION}.zip
+https://kaixpub.blob.core.chinacloudapi.cn/archives/consul/releases/v1.4.0-azure-multienv/consul_v1.4.0-azure-multienv_linux_amd64.zip
+CONSUL_URL="https://kaixpub.blob.core.chinacloudapi.cn/archives/consul/releases/$${CONSUL_VERSION}/$${CONSUL_ZIP}"
 
 echo "Downloading consul $${CONSUL_VERSION}"
-curl --silent --output /tmp/$${CONSUL_ZIP} $${CONSUL_URL}
+curl --silent -L --output /tmp/$${CONSUL_ZIP} $${CONSUL_URL}
 
 logger "Installing consul"
 sudo unzip -o /tmp/$${CONSUL_ZIP} -d /usr/local/bin/
@@ -165,7 +166,7 @@ sudo tee /etc/consul.d/consul-default.json <<EOF
   "client_addr": "0.0.0.0",
   "log_level": "INFO",
   "ui": true,
-  "retry_join": ["provider=azure tag_name=consul_datacenter tag_value=${consul_datacenter} subscription_id=${auto_join_subscription_id} tenant_id=${auto_join_tenant_id} client_id=${auto_join_client_id} secret_access_key=${auto_join_secret_access_key}"]
+  "retry_join": ["provider=azure env=cn tag_name=consul_datacenter tag_value=${consul_datacenter} subscription_id=${auto_join_subscription_id} tenant_id=${auto_join_tenant_id} client_id=${auto_join_client_id} secret_access_key=${auto_join_secret_access_key}"]
 }
 EOF
 

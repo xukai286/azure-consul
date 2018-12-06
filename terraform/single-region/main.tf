@@ -6,20 +6,21 @@ provider "azurerm" {}
 
 resource "azurerm_resource_group" "main" {
   name     = "consul-single-region"
-  location = "westus"
+  location = "chinaeast2"
 }
 
 module "ssh_key" {
   source = "../modules/ssh-keypair-data"
 
   private_key_filename = "${var.private_key_filename}"
+
 }
 
-module "network_westus" {
+module "network_chinaeast2" {
   source                = "../modules/network-azure"
   resource_group_name   = "${azurerm_resource_group.main.name}"
-  location              = "westus"
-  network_name          = "consul-westus"
+  location              = "chinaeast2"
+  network_name          = "consul-chinaeast2"
   network_cidr          = "10.0.0.0/16"
   network_cidrs_public  = ["10.0.0.0/20"]
   network_cidrs_private = ["10.0.48.0/20", "10.0.64.0/20", "10.0.80.0/20"]
@@ -27,13 +28,13 @@ module "network_westus" {
   public_key_data       = "${module.ssh_key.public_key_data}"
 }
 
-module "consul_azure_westus" {
+module "consul_azure_chinaeast2" {
   source                    = "../modules/consul-azure"
   resource_group_name       = "${azurerm_resource_group.main.name}"
-  consul_datacenter         = "consul-westus"
-  location                  = "westus"
+  consul_datacenter         = "consul-chinaeast2"
+  location                  = "chinaeast2"
   cluster_size              = "${var.cluster_size}"
-  private_subnet_ids        = ["${module.network_westus.subnet_private_ids}"]
+  private_subnet_ids        = ["${module.network_chinaeast2.subnet_private_ids}"]
   consul_version            = "${var.consul_version}"
   vm_size                   = "${var.consul_vm_size}"
   os                        = "${var.os}"
